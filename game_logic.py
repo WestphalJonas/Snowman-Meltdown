@@ -13,6 +13,7 @@ def get_random_word():
 def display_game_state(mistakes, secret_word, guessed_letters):
     """Displays the current snowman stage and the secret word with guesses."""
     stage_index = max(0, min(mistakes, len(STAGES) - 1))
+    print("\n" + "=" * 32)
     print(STAGES[stage_index])
 
     display_word = ""
@@ -22,7 +23,9 @@ def display_game_state(mistakes, secret_word, guessed_letters):
         else:
             display_word += "_ "
     print("Word:", display_word)
-    print("\n")
+    print("Guessed:", " ".join(sorted(guessed_letters)) or "(none)")
+    print("Mistakes:", mistakes, "/", len(STAGES) - 1)
+    print("=" * 32 + "\n")
 
 
 def play_game():
@@ -32,7 +35,7 @@ def play_game():
     max_mistakes = len(STAGES) - 1
 
     print("Welcome to Snowman Meltdown!")
-    print("Secret word selected: " + secret_word)  # for testing, later remove this line
+    # print("Secret word selected: " + secret_word)  # for testing, later remove this line
 
     # Game loop: continue until win or out of attempts
     while True:
@@ -68,3 +71,23 @@ def play_game():
             print("Wrong guess! Mistakes:", mistakes, "/", max_mistakes)
         else:
             print("Nice! '" + guess + "' is in the word.")
+
+
+def play_again():
+    """Ask the user if they want to play another round."""
+    while True:
+        choice = input("Play again? (y/n): ").strip().lower()
+        if choice in ("y", "yes"):
+            return True
+        if choice in ("n", "no"):
+            return False
+        print("Please enter 'y' or 'n'.")
+
+
+def start_game_loop():
+    """Run repeated games until the user quits."""
+    while True:
+        play_game()
+        if not play_again():
+            print("Thanks for playing Snowman Meltdown! Goodbye.")
+            break
